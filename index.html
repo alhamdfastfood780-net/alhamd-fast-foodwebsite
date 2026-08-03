@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <meta name="description" content="Alhamd Fast-Food & Restaurant — order online, menu updates live, checkout on WhatsApp.">
+   <title>Alhamd Fast-Food & Restaurant </title>
+   <link rel="icon" href="img/logo.jpg" type="image/jpg">
+   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Poppins:wght@300;400;500;600;700&family=Dancing+Script:wght@700&display=swap" rel="stylesheet"/>
+   <link href="css/bootstrap.min.css" rel="stylesheet"/>
+   <link href="css/aos.css" rel="stylesheet"/>
+   <link rel="stylesheet" href="css/all.min.css"/>
+   <link rel="stylesheet" href="css/style.css" />
+   <link rel="stylesheet" href="css/custom.css" />
+   <link rel="icon" href="img/logo.jpg" type="image/jpeg">
+</head>
+<body>
+<!-- ============================================================
+   PAGE LOADER / PRELOADER
+   ============================================================ -->
+<div id="pageLoader">
+   <div class="loader-inner">
+      <div class="loader-ring-wrap">
+         <img src="img/logo.jpg" alt="Alhamd Fast-Food & Restaurant" class="loader-logo">
+         <svg class="loader-ring" viewBox="0 0 100 100">
+            <circle cx="50" cy="50" r="44"></circle>
+         </svg>
+      </div>
+      <div class="loader-brand">Alhamd <span>Fast-Food</span></div>
+      <div class="loader-sub">&amp; Restaurant</div>
+      <div class="loader-bar"><div class="loader-bar-fill"></div></div>
+   </div>
+</div>
+   <!-- ============================================================
+      TOP BAR
+      ============================================================ -->
+
+   <!-- ============================================================
+      NAVBAR
+      ============================================================ -->
+   <nav class="navbar navbar-expand-lg" id="nav">
+      <div class="container">
+         <a class="navbar-brand" href="#hero">
+            <div class="blogo-img">
+               <img src="img/logo.jpg" alt="Alhamd Fast-Food & Restaurant Logo"/>
+               <div>
+                  <div class="bname">Alhamd <span>Fast-Food</span></div>
+                  <div class="bsub">& Restaurant</div>
+               </div>
+            </div>
+         </a>
+         <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navmenu">
+            <i class="fas fa-bars" style="color:var(--primary);font-size:1.35rem;"></i>
+         </button>
+         <div class="collapse navbar-collapse" id="navmenu">
+            <ul class="navbar-nav mx-auto">
+               <li class="nav-item"><a class="nav-link" href="#hero">Home</a></li>
+               <li class="nav-item"><a class="nav-link" href="#menu">Menu</a></li>
+               <li class="nav-item"><a class="nav-link" href="#why-us">Why Us</a></li>
+               <li class="nav-item"><a class="nav-link" href="#contact-section">Contact</a></li>
+                <li class="nav-item"><a class="nav-link" href="#founder-connect">Our Founder</a></li>
+            </ul>
+            <div class="d-flex align-items-center gap-1">
+               <a href="#menu" class="nav-link nav-cta"><i class="fa-solid fa-cart-shopping me-1"></i>Order Now</a>
+            </div>
+         </div>
+      </div>
+   </nav>
+
+   <!-- ============================================================
+      HERO
+      ============================================================ -->
+   <section id="hero">
+      <div class="hs hs1"></div>
+      <div class="hs hs2"></div>
+      <div class="hbgtxt">FOOD</div>
+      <div class="container">
+         <div class="row align-items-center g-5" style="min-height:80vh;">
+            <div class="col-lg-6">
+               <div class="hbadge">
+                  <div class="hbi"><i class="fas fa-fire"></i></div>
+                  <span>Fresh Off The Grill, Every Order</span>
+               </div>
+               <h1 class="htitle">Delicious <span class="hl">Fast Food</span><br/>Ordered in Seconds</h1>
+               <p class="hdesc">Browse our full menu, build your order, and send it straight to us on WhatsApp — no app, no account, no hassle.</p>
+               <div class="d-flex flex-wrap gap-3 mb-2">
+                  <a href="#menu" class="btn-red"><i class="fas fa-utensils"></i>Explore Menu</a>
+                  
+               </div>
+               <div class="hbadges">
+                  <div class="hbadge2"><i class="fas fa-utensils"></i>Made Fresh to Order</div>
+                  <div class="hbadge2"><i class="fab fa-whatsapp"></i>Order via WhatsApp</div>
+                  <div class="hbadge2"><i class="fas fa-tags"></i>Menu Always Up to Date</div>
+               </div>
+            </div>
+            <div class="col-lg-6">
+               <div style="position:relative;text-align:center;">
+                  <div class="hcircle">
+                     <img src="img/Image.png" alt="Alhamd Fast-Food"/>
+                  </div>
+                  <div class="fcard fc1">
+                     <div class="fcoi r"><i class="fas fa-fire"></i></div>
+                     <div><span class="fcnum">Fresh</span><span class="fcsm">Cooked to order</span></div>
+                  </div>
+                  <div class="fcard fc2">
+                     <div class="fcoi y"><i class="fab fa-whatsapp"></i></div>
+                     <div><span class="fcnum">Easy Order</span><span class="fcsm">Straight to WhatsApp</span></div>
+                  </div>
+                  <div class="fcard fc3">
+                     <div class="fcoi g"><i class="fas fa-clock"></i></div>
+                     <div><span class="fcnum">Quick Prep</span><span class="fcsm">No waiting around</span></div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </section>
+
+   <!-- ============================================================
+      TIME-LIMITED DEALS
+      Hidden completely unless a deal is active in js/campaigns.js.
+      Clicking a card scrolls straight to that item in the Menu below.
+      ============================================================ -->
+   <!-- ============================================================
+      TIME-LIMITED DEALS
+      Fully driven by your POS now (settings/main.deals in Firestore —
+      same live sync as your menu). Nothing to edit in this file or in
+      js/campaigns.js ever again; add/edit/turn off deals from the POS.
+      ============================================================ -->
+   <section id="dealsSection" style="display:none;padding:50px 0 70px;background:var(--cream);">
+      <div class="container">
+         <div class="text-center mb-4" data-aos="fade-up">
+            <span class="slbl"><i class="fas fa-bolt me-1"></i>Don't Miss Out</span>
+            <h2 class="stitle">Time-Limited <span>Deals</span></h2>
+            <div class="sline"></div>
+         </div>
+         <div class="deals-slider" id="dealsSlider"></div>
+         <div class="deals-dots" id="dealsDots"></div>
+      </div>
+   </section>
+
+   <!-- MARQUEE -->
+   <div class="mqsec">
+      <div class="mqtrack" id="mqtrack">
+         <!-- populated from live menu categories by JS; falls back to defaults below -->
+         <div class="mqitem"><i class="fas fa-circle"></i>Hot Wings</div>
+         <div class="mqitem"><i class="fas fa-circle"></i>Burgers</div>
+         <div class="mqitem"><i class="fas fa-circle"></i>Fries</div>
+         <div class="mqitem"><i class="fas fa-circle"></i>Pasta</div>
+         <div class="mqitem"><i class="fas fa-circle"></i>Nuggets</div>
+         <div class="mqitem"><i class="fas fa-circle"></i>Juices & Shakes</div>
+         <div class="mqitem"><i class="fas fa-circle"></i>Hot Wings</div>
+         <div class="mqitem"><i class="fas fa-circle"></i>Burgers</div>
+         <div class="mqitem"><i class="fas fa-circle"></i>Fries</div>
+         <div class="mqitem"><i class="fas fa-circle"></i>Pasta</div>
+      </div>
+   </div>
+
+   <!-- ============================================================
+      MENU (LIVE — synced from POS)
+      ============================================================ -->
+   <section id="menu">
+      <div class="container">
+         <div class="text-center mb-5" data-aos="fade-up">
+            <span class="slbl">What's Cooking</span>
+            <h2 class="stitle">Our Delicious <span>Menu</span></h2>
+            <div class="sline"></div>
+            <p class="sdesc mx-auto" style="max-width:480px;">Tap an item to add it to your order — updates live from our kitchen.</p>
+         </div>
+
+         <div class="menu-search" data-aos="fade-up">
+            <i class="fas fa-search"></i>
+            <input type="text" id="menuSearch" placeholder="Search burgers, wings, pasta..." autocomplete="off"/>
+         </div>
+
+         <div class="text-center mb-2" data-aos="fade-up">
+            <div id="catChips"></div>
+         </div>
+
+         <div class="row g-4" id="mgrid">
+            <div class="col-sm-6 col-lg-4"><div class="skeleton"></div></div>
+            <div class="col-sm-6 col-lg-4"><div class="skeleton"></div></div>
+            <div class="col-sm-6 col-lg-4"><div class="skeleton"></div></div>
+            <div class="col-sm-6 col-lg-4"><div class="skeleton"></div></div>
+            <div class="col-sm-6 col-lg-4"><div class="skeleton"></div></div>
+            <div class="col-sm-6 col-lg-4"><div class="skeleton"></div></div>
+         </div>
+      </div>
+   </section>
+
+   <!-- ============================================================
+      WHY US
+      ============================================================ -->
+   <section id="why-us" style="padding:90px 0;background:#fff;">
+      <div class="container">
+         <div class="text-center mb-5" data-aos="fade-up">
+            <span class="slbl">Why Choose Us</span>
+            <h2 class="stitle">Fresh Food, <span>Easy Ordering</span></h2>
+            <div class="sline"></div>
+         </div>
+         <div class="row g-4 text-center">
+            <div class="col-6 col-md-3" data-aos="fade-up" data-aos-delay="0">
+               <div class="icon-circle mx-auto mb-3"><i class="fas fa-utensils"></i></div>
+               <h6 style="font-weight:700;">Fresh Ingredients</h6>
+               <p style="font-size:0.85rem;color:#888;">Everything prepared fresh, made to order.</p>
+            </div>
+            <div class="col-6 col-md-3" data-aos="fade-up" data-aos-delay="80">
+               <div class="icon-circle mx-auto mb-3"><i class="fab fa-whatsapp"></i></div>
+               <h6 style="font-weight:700;">WhatsApp Ordering</h6>
+               <p style="font-size:0.85rem;color:#888;">Build your cart, send it, done — no app to install.</p>
+            </div>
+            <div class="col-6 col-md-3" data-aos="fade-up" data-aos-delay="160">
+               <div class="icon-circle mx-auto mb-3"><i class="fas fa-sync-alt"></i></div>
+               <h6 style="font-weight:700;">Always Up to Date</h6>
+               <p style="font-size:0.85rem;color:#888;">Our menu here matches what's in-store, live.</p>
+            </div>
+            <div class="col-6 col-md-3" data-aos="fade-up" data-aos-delay="240">
+               <div class="icon-circle mx-auto mb-3"><i class="fas fa-tags"></i></div>
+               <h6 style="font-weight:700;">Great Prices</h6>
+               <p style="font-size:0.85rem;color:#888;">Solid portions, fair prices, every time.</p>
+            </div>
+         </div>
+      </div>
+   </section>
+
+   <!-- ============================================================
+      CONTACT / FOOTER
+      ============================================================ -->
+   <section id="contact-section" style="padding:80px 0;background:var(--dark);color:#fff;">
+      <div class="container text-center" data-aos="fade-up">
+         <span class="slbl">Get In Touch</span>
+         <h2 class="stitle" style="color:#fff;">Ready to <span>Order?</span></h2>
+         <div class="sline"></div>
+         <p style="color:#bbb;max-width:480px;margin:0 auto 26px;">Build your cart above, or message us directly on WhatsApp any time.</p>
+         <a href="https://wa.me/923266797564" target="_blank" rel="noopener" class="btn-whatsapp" style="max-width:280px;margin:0 auto;">
+            <i class="fab fa-whatsapp"></i> Message 0326 6797564
+         </a>
+      </div>
+   </section>
+<!-- ============================================================
+   FOUNDER + CONNECT SECTION
+   ============================================================ -->
+<section id="founder-connect" style="background:var(--cream);padding:80px 0;">
+   <div class="container">
+      <div class="row align-items-center g-5">
+
+         <!-- LEFT: FOUNDER -->
+         <div class="col-lg-6" data-aos="fade-up">
+            <div class="fc-founder-card">
+               <span class="slbl">Meet The</span>
+               <h2 class="stitle">Our <span>Founder</span></h2>
+               <div class="sline lft"></div>
+
+               <div class="fc-founder-img">
+   <a href="https://www.tiktok.com/@zain.9091" target="_blank" rel="noopener noreferrer">
+      <img src="img/owner.png" alt="Founder Name">
+   </a>
+</div>
+
+               <h5 class="fc-founder-name">Choudhary Zain Ali </h5>
+               <p class="fc-founder-detail">
+                  At just 19 years old, our founder took a bold step into the food industry,
+                   turning a simple passion for great food into Alhamd Fast-Food & Restaurant.
+                    With fresh energy, big dreams, and a commitment to quality, 
+                  this journey is just the beginning of something special.
+               </p>
+            </div>
+         </div>
+
+         <!-- RIGHT: CONNECT WITH US -->
+         <div class="col-lg-6" data-aos="fade-up" data-aos-delay="150">
+            <div class="fc-connect-card">
+               <span class="slbl">Follow &amp; Find Us</span>
+               <h2 class="stitle">Connect <span>With Us</span></h2>
+               <div class="sline lft"></div>
+
+               <div class="fc-links">
+                  <a href="https://www.tiktok.com/@alhumdfastfoodres?_r=1&_t=ZS-98Sr2VjZ9XR" target="_blank" rel="noopener" class="fc-link-btn fc-tiktok">
+                     <i class="fab fa-tiktok"></i>
+                     <span>Follow us on TikTok</span>
+                  </a>
+
+                  <a href="https://www.facebook.com/share/19SKQwq8or/" target="_blank" rel="noopener" class="fc-link-btn fc-facebook">
+                     <i class="fab fa-facebook-f"></i>
+                     <span>Follow us on Facebook</span>
+                  </a>
+
+                  <a href="https://maps.app.goo.gl/wFSt9Hjw7KJYXyFu9" target="_blank" rel="noopener" class="fc-link-btn fc-location">
+                     <i class="fas fa-location-dot"></i>
+                     <span>Find Us on Map</span>
+                  </a>
+               </div>
+            </div>
+         </div>
+
+      </div>
+   </div>
+</section>
+  <footer style="background:#141414;color:#888;padding:22px 0;font-size:0.82rem;">
+   <div class="container d-flex flex-wrap justify-content-between align-items-center gap-2">
+      <div>&copy; 2026 Alhamd Fast-Food & Restaurant. All Rights Reserved.</div>
+      <div>Designed &amp; Developed by <span style="color:var(--primary);font-weight:600;">ZAID ALI</span></div>
+   </div>
+</footer>
+
+   <!-- ============================================================
+      CART OFFCANVAS
+      ============================================================ -->
+   <div class="offcanvas offcanvas-end" tabindex="-1" id="cartOffcanvas">
+      <div class="offcanvas-header">
+         <h5 class="mb-0" style="
+    color: #eaeaea;
+"><i class="fa-solid fa-cart-shopping me-2"></i>Cart</h5>
+         <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+      </div>
+      <div class="offcanvas-body d-flex flex-column">
+         <div id="cartEmptyState">
+            <i class="fas fa-shopping-basket"></i>
+            <p>Your cart is empty.<br/>Add something tasty from our menu!</p>
+         </div>
+         <div id="cartLines"></div>
+         <div id="cartSummary" style="display:none;">
+            <div class="cart-total-row"><span>Subtotal</span><span id="cartSubtotal">Rs 0</span></div>
+            <div class="cart-total-row cart-delivery-row" id="cartDeliveryRow" style="display:none;">
+               <span>Delivery Charges</span><span id="cartDelivery">Rs 0</span>
+            </div>
+            <div class="cart-total-row cart-grand-row" id="cartGrandRow" style="display:none;">
+               <span>Total</span><span id="cartGrandTotal">Rs 0</span>
+            </div>
+            <a href="#" id="whatsappCheckoutBtn" target="_blank" rel="noopener" class="btn-whatsapp">
+               <i class="fab fa-whatsapp"></i> Order Now 
+            </a>
+            <p class="cart-note">Delivery charges shown here are set live from our system &amp; final confirmation is handled over WhatsApp.</p>
+         </div>
+      </div>
+   </div>
+
+   <!-- Floating cart button -->
+   <button id="cartFab" class="empty" data-bs-toggle="offcanvas" data-bs-target="#cartOffcanvas">
+      <i class="fa-solid fa-cart-shopping"></i>
+      <span class="fab-text" id="fabSubtotal">Rs 0</span>
+      <span class="fab-badge" id="fabCount">0</span>
+   </button>
+
+   <!-- Toast -->
+   <div class="added-toast" id="addedToast"><i class="fas fa-check-circle"></i><span id="addedToastText">Added to cart</span></div>
+
+   <!-- ============================================================
+      SCRIPTS
+      ============================================================ -->
+   <script src="js/bootstrap.bundle.min.js"></script>
+   <script src="js/aos.js"></script>
+   <script>AOS.init({ duration: 700, once: true });</script>
+
+   <!-- Firebase (same project as POS — read-only usage on this site) -->
+   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+
+   <script src="js/menu.js"></script>
+   <script src="js/campaigns.js"></script>
+</body>
+</html>
