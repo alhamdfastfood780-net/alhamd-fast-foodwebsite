@@ -1139,6 +1139,9 @@ section {
   margin: 0;
 }
 @media (max-width: 767px) {
+  .hcircle {
+    display:none;
+  }
   .timeline::before {
     left: 16px;
   }
