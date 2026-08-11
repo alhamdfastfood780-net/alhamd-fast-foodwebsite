@@ -436,9 +436,9 @@
 
 /* ---------- Tablets & small laptops ---------- */
 @media (max-width: 768px) {
-  .pc-img { height: 160px; }
-  .pc-body { padding: 14px 14px 16px; }
-  .pc-name { font-size: 1rem; }
+  .pc-img { height: 210px; }
+  .pc-body { padding: 12px 14px 14px; }
+  .pc-name { font-size: 1rem; margin-bottom: 6px; }
   #cartOffcanvas { --bs-offcanvas-width: 380px; }
 }
 
@@ -516,8 +516,10 @@
 
   /* Product grid: one column feels more premium than a squeezed 2-col */
   #mgrid { row-gap: 18px !important; }
-  .pc-img { height: 180px; }
-  .pc-name { font-size: 1.05rem; }
+  .pc-img { height: 240px; }
+  .pc-body { padding: 12px 14px 14px; }
+  .pc-name { font-size: 1.05rem; margin-bottom: 6px; }
+  .pc-variants { margin-bottom: 8px; }
   .pc-price { font-size: 1.05rem; }
   .pc-add { width: 40px; height: 40px; }
 
@@ -548,7 +550,7 @@
 @media (max-width: 360px) {
   .bname { font-size: 0.85rem; }
   .bsub { display: none; }
-  .pc-img { height: 150px; }
+  .pc-img { height: 210px; }
   .stitle { font-size: 1.5rem; }
 }
 
