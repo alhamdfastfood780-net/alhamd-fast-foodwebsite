@@ -412,8 +412,19 @@
       background:#fff;border-radius:14px;padding:22px;height:100%;
       box-shadow:0 6px 20px rgba(0,0,0,0.05);
       border:1px solid rgba(0,0,0,0.05);
+      position:relative;
    }
-   .ru-review-stars{color:var(--primary);font-size:0.95rem;margin-bottom:8px;letter-spacing:2px;}
+   .ru-review-delete{
+      position:absolute;top:14px;right:14px;
+      background:none;border:none;cursor:pointer;
+      width:28px;height:28px;border-radius:50%;
+      display:flex;align-items:center;justify-content:center;
+      color:#c9c2b8;font-size:0.82rem;
+      transition:background 0.2s ease, color 0.2s ease;
+   }
+   .ru-review-delete:hover{background:#fdeceb;color:var(--primary);}
+   .ru-review-delete:disabled{opacity:0.5;cursor:not-allowed;}
+   .ru-review-stars{color:var(--primary);font-size:0.95rem;margin-bottom:8px;letter-spacing:2px;padding-right:26px;}
    .ru-review-text{font-size:0.9rem;color:#555;margin-bottom:12px;min-height:20px;}
    .ru-review-name{font-weight:700;font-size:0.88rem;}
    .ru-review-date{font-size:0.75rem;color:#aaa;}
@@ -540,6 +551,32 @@
          var labels = ['', 'Poor', 'Fair', 'Good', 'Very Good', 'Excellent'];
          var selectedValue = 0;
 
+         // ---- "My reviews" tracking (localStorage) ----
+         // No login system on this site, so we remember which review IDs
+         // THIS browser submitted, and only show a delete button on those.
+         var MY_REVIEWS_KEY = 'ruMyReviews';
+
+         function getMyReviewIds() {
+            try {
+               return JSON.parse(localStorage.getItem(MY_REVIEWS_KEY)) || [];
+            } catch (e) {
+               return [];
+            }
+         }
+
+         function addMyReviewId(id) {
+            var ids = getMyReviewIds();
+            if (ids.indexOf(id) === -1) {
+               ids.push(id);
+               localStorage.setItem(MY_REVIEWS_KEY, JSON.stringify(ids));
+            }
+         }
+
+         function removeMyReviewId(id) {
+            var ids = getMyReviewIds().filter(function (existingId) { return existingId !== id; });
+            localStorage.setItem(MY_REVIEWS_KEY, JSON.stringify(ids));
+         }
+
          function paintStars(upTo) {
             stars.forEach(function (star) {
                var v = parseInt(star.dataset.value, 10);
@@ -582,7 +619,8 @@
                name: name,
                review: reviewText,
                createdAt: firebase.firestore.FieldValue.serverTimestamp()
-            }).then(function () {
+            }).then(function (docRef) {
+               addMyReviewId(docRef.id);
                formBlock.style.display = 'none';
                thanksBlock.style.display = 'block';
             }).catch(function (err) {
@@ -611,6 +649,7 @@
                listEl.innerHTML = '<p class="ru-empty">No reviews yet — be the first to rate us!</p>';
                return;
             }
+            var myIds = getMyReviewIds();
             var html = '';
             snapshot.forEach(function (doc) {
                var r = doc.data();
@@ -622,10 +661,15 @@
                var when = r.createdAt && r.createdAt.toDate ? timeAgo(r.createdAt.toDate()) : '';
                var reviewText = r.review ? r.review.replace(/</g, '&lt;').replace(/>/g, '&gt;') : '<em>No written review</em>';
                var name = (r.name || 'Anonymous').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+               var isMine = myIds.indexOf(doc.id) !== -1;
+               var deleteBtnHtml = isMine
+                  ? '<button type="button" class="ru-review-delete" data-id="' + doc.id + '" aria-label="Delete your review" title="Delete your review"><i class="fas fa-trash"></i></button>'
+                  : '';
 
                html +=
                   '<div class="col-md-4">' +
                      '<div class="ru-review-card">' +
+                        deleteBtnHtml +
                         '<div class="ru-review-stars">' + starsHtml + '</div>' +
                         '<div class="ru-review-text">' + reviewText + '</div>' +
                         '<div class="ru-review-name">' + name + '</div>' +
@@ -635,6 +679,25 @@
             });
             listEl.innerHTML = html;
          }
+
+         // Delete handler (event delegation — cards are re-rendered on every live update)
+         listEl.addEventListener('click', function (e) {
+            var btn = e.target.closest('.ru-review-delete');
+            if (!btn) return;
+
+            var id = btn.dataset.id;
+            if (!confirm('Delete your review? This can\'t be undone.')) return;
+
+            btn.disabled = true;
+            reviewsRef.doc(id).delete().then(function () {
+               removeMyReviewId(id);
+               // onSnapshot listener will re-render the list automatically
+            }).catch(function (err) {
+               console.error('Rate Us: failed to delete review', err);
+               btn.disabled = false;
+               alert('Could not delete the review — please try again.');
+            });
+         });
 
          // Live-updating latest 3 reviews (matches the rest of the site's live-sync feel)
          reviewsRef.orderBy('createdAt', 'desc').limit(3).onSnapshot(renderReviews, function (err) {
