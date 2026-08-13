@@ -56,6 +56,11 @@ settingsDocRef.onSnapshot(
     if (typeof window.renderDeals === "function") {
       window.renderDeals(Array.isArray(d.deals) ? d.deals : []);
     }
+
+    // Site theme — also set from the POS (settings/main.theme).
+    // "independence_day" -> green/white palette + 14 August banner shown.
+    // anything else (or missing) -> default theme, banner hidden.
+    applyTheme(d.theme);
   },
   (err) => {
     console.error("Menu sync failed:", err);
@@ -102,6 +107,23 @@ function readDeliveryCharge(d) {
   );
 
   return found;
+}
+
+/* ---------------- THEME (set from the POS via settings/main.theme) ----------------
+   Toggling body.theme-independence-day re-points every existing CSS
+   variable (--primary, --dark, --cream, etc.) to a green/white palette —
+   see js/custom.css. Also shows/hides the "14 August" nav link and the
+   independence banner section, both hidden by default in index.html.
+--------------------------------------------------------------------- */
+function applyTheme(theme) {
+  const isIndependenceDay = theme === "independence_day";
+
+  document.body.classList.toggle("theme-independence-day", isIndependenceDay);
+
+  const navLink = document.getElementById("navIndependenceLink");
+  const section = document.getElementById("independence-section");
+  if (navLink) navLink.style.display = isIndependenceDay ? "" : "none";
+  if (section) section.style.display = isIndependenceDay ? "block" : "none";
 }
 
 function getCategoriesWithCounts() {
@@ -471,4 +493,3 @@ showMenuState("loading", "Loading today's menu…");
 
   sections.forEach(sec => observer.observe(sec));
 })();
-
