@@ -845,3 +845,112 @@ body.is-loading{ overflow:hidden; }
   50%{ width:70%; }
   100%{ width:0%; margin-left:160px; }
 }
+/* ============================================================
+   INDEPENDENCE DAY THEME (14 August)
+   Toggled from the POS via settings/main.theme in Firestore.
+   Applying the "theme-independence-day" class on <body> re-points
+   every existing CSS variable used across the site (--primary,
+   --secondary, --dark, --cream, --cream2, --shadow) to a green/white
+   Pakistani-flag palette. Nothing else in the site needs to change —
+   every element already styled with var(--primary) etc. picks this
+   up automatically. Remove the class (or set theme to "default")
+   to instantly restore the original colors.
+   ============================================================ */
+body.theme-independence-day {
+  --primary: #0F7D3B;        /* flag green — replaces the red/primary accent everywhere */
+  --secondary: #E8C468;      /* crescent-star gold — replaces old secondary accent */
+  --dark: #06331D;           /* deep green — replaces near-black dark sections */
+  --cream: #F2FAF5;          /* light green-white tint */
+  --cream2: #E1F3E7;         /* slightly deeper green-white tint */
+  --shadow: 0 6px 18px rgba(6, 51, 29, 0.10);
+  --shadow-lg: 0 14px 34px rgba(6, 51, 29, 0.18);
+}
+
+/* ---------- Independence Day banner section ---------- */
+#independence-section {
+  padding: 60px 0;
+  background: linear-gradient(135deg, var(--cream2), var(--cream));
+}
+.ids-card {
+  max-width: 640px;
+  margin: 0 auto;
+  text-align: center;
+  background: #fff;
+  border-radius: 22px;
+  padding: 46px 30px;
+  box-shadow: var(--shadow-lg);
+  border: 1px solid rgba(15, 125, 59, 0.12);
+  position: relative;
+  overflow: hidden;
+}
+.ids-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(15,125,59,0.06), transparent 60%);
+  pointer-events: none;
+}
+.ids-stars {
+  color: var(--secondary);
+  font-size: 0.9rem;
+  letter-spacing: 10px;
+  margin-bottom: 10px;
+}
+.ids-flag-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: var(--primary);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  margin: 0 auto 18px;
+  box-shadow: var(--shadow);
+}
+.ids-title {
+  font-family: "Playfair Display", serif;
+  font-weight: 800;
+  font-size: 1.9rem;
+  color: var(--dark);
+  margin-bottom: 12px;
+}
+.ids-title span {
+  display: block;
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  font-size: 1.05rem;
+  color: var(--primary);
+  margin-top: 6px;
+}
+.ids-desc {
+  color: #666;
+  font-size: 0.95rem;
+  max-width: 440px;
+  margin: 0 auto 26px;
+}
+.ids-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  border-radius: 50px;
+  padding: 13px 30px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-decoration: none;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.ids-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+  color: #fff;
+}
+@media (max-width: 576px) {
+  #independence-section { padding: 46px 0; }
+  .ids-card { padding: 34px 20px; border-radius: 18px; }
+  .ids-title { font-size: 1.5rem; }
+}
