@@ -129,13 +129,13 @@ function applyTheme(theme) {
 function getCategoriesWithCounts() {
   const counts = {};
   PRODUCTS.forEach((p) => {
-    if (!p.cat) return;
+    if (!p.cat || p.active === false) return; // disabled items (POS toggle) don't count here
     counts[p.cat] = (counts[p.cat] || 0) + 1;
   });
   // Preserve first-seen order (matches POS ordering), only categories with items
   const seen = [];
   PRODUCTS.forEach((p) => {
-    if (p.cat && !seen.includes(p.cat)) seen.push(p.cat);
+    if (p.cat && p.active !== false && !seen.includes(p.cat)) seen.push(p.cat);
   });
   return seen.map((c) => ({ name: c, count: counts[c] }));
 }
@@ -191,7 +191,8 @@ function renderGrid() {
   let list = PRODUCTS.filter((p) => {
     const inCat = activeCategory === "All" || p.cat === activeCategory;
     const inSearch = !searchTerm || (p.name || "").toLowerCase().includes(searchTerm);
-    return inCat && inSearch;
+    const isActive = p.active !== false; // hides items turned off from the POS
+    return inCat && inSearch && isActive;
   });
 
   if (list.length === 0) {
