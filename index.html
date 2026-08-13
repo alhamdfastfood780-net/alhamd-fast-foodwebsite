@@ -56,6 +56,7 @@
          <div class="collapse navbar-collapse" id="navmenu">
             <ul class="navbar-nav mx-auto">
                <li class="nav-item"><a class="nav-link" href="#hero">Home</a></li>
+               <li class="nav-item" id="navIndependenceLink" style="display:none;"><a class="nav-link" href="#independence-section"><i class="fas fa-flag me-1"></i>14 August</a></li>
                <li class="nav-item"><a class="nav-link" href="#menu">Menu</a></li>
                <li class="nav-item"><a class="nav-link" href="#why-us">Why Us</a></li>
                <li class="nav-item"><a class="nav-link" href="#contact-section">Contact</a></li>
@@ -114,6 +115,27 @@
                   </div>
                </div>
             </div>
+         </div>
+      </div>
+   </section>
+
+   <!-- ============================================================
+      INDEPENDENCE DAY SECTION (14 August)
+      Hidden by default. Shown automatically (and site-wide green
+      theme applied) when the POS sets settings/main.theme to
+      "independence_day". Controlled live from js/menu.js — nothing
+      to edit here manually.
+      ============================================================ -->
+   <section id="independence-section" style="display:none;">
+      <div class="container">
+         <div class="ids-card" data-aos="fade-up">
+            <div class="ids-stars">
+               <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+            </div>
+            <div class="ids-flag-icon"><i class="fas fa-flag"></i></div>
+            <h2 class="ids-title">Happy Independence Day<span>Pakistan Zindabad 🇵🇰</span></h2>
+            <p class="ids-desc">Celebrating 14th August with the taste you love. Order your favourites and celebrate with us today!</p>
+            <a href="#menu" class="ids-btn"><i class="fas fa-utensils"></i> Order Now</a>
          </div>
       </div>
    </section>
@@ -714,4 +736,4 @@
    })();
    </script>
 </body>
-</html>
+</html> 
