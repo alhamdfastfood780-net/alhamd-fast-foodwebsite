@@ -26,7 +26,16 @@
        that product in the Menu section and highlights it.
 ===================================================================== */
 
+// True on phone-sized screens. Used to pick the mobile vs desktop image
+// the POS saved for each deal (settings/main.deals[i].imageMobile / imageDesktop).
+function isMobileViewport() {
+  return window.matchMedia("(max-width: 768px)").matches;
+}
+
+let _lastDealsData = null; // remembered so we can re-render if the screen size crosses the breakpoint
+
 window.renderDeals = function (deals) {
+  _lastDealsData = deals;
   const active = (deals || []).filter(function (d) { return d.active; });
   const section = document.getElementById("dealsSection");
   const slider = document.getElementById("dealsSlider");
@@ -42,11 +51,17 @@ window.renderDeals = function (deals) {
   }
   section.style.display = "block";
 
+  const mobileView = isMobileViewport();
   slider.innerHTML = active.map(function (d, i) {
     const targetRef = d.productId || d.itemName || "";
     const isActive = i === 0 ? " active" : "";
+    // Desktop image on laptop/desktop screens, mobile image on phones.
+    // Falls back to the other one (or the old single "image" field) if only one was set.
+    const chosenImg = mobileView
+      ? (d.imageMobile || d.imageDesktop || d.image || "")
+      : (d.imageDesktop || d.imageMobile || d.image || "");
     return (
-      '<img src="' + escapeAttr(d.image || "") + '" alt="Deal"' +
+      '<img src="' + escapeAttr(chosenImg) + '" alt="Deal"' +
       ' class="' + isActive.trim() + '" data-target="' + escapeAttr(targetRef) + '">' +
       '<button type="button" class="deal-order-btn' + isActive + '" data-target="' + escapeAttr(targetRef) + '">' +
         'Order Now <i class="fas fa-arrow-right"></i>' +
@@ -126,4 +141,17 @@ window.renderDeals = function (deals) {
         document.body.classList.remove('is-loading');
       }, 400); // thora delay taake animation smooth mehsoos ho, chahein to 0 kar dein
     }
+  });
+
+  // Re-pick mobile vs desktop deal image if the window is resized (or a
+  // tablet is rotated) across the 768px breakpoint. Debounced so it doesn't
+  // re-render on every pixel while dragging the window edge.
+  var _dealsResizeTimer = null;
+  window.addEventListener('resize', function () {
+    clearTimeout(_dealsResizeTimer);
+    _dealsResizeTimer = setTimeout(function () {
+      if (_lastDealsData && typeof window.renderDeals === 'function') {
+        window.renderDeals(_lastDealsData);
+      }
+    }, 200);
   });
