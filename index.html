@@ -6,7 +6,7 @@
    <meta name="viewport" content="width=device-width, initial-scale=1">
    <meta name="description" content="Alhamd Fast-Food & Restaurant — order online, menu updates live, checkout on WhatsApp.">
    <title>Alhamd Fast-Food & Restaurant </title>
-   <link rel="icon" href="img/logo.jpg" type="image/jpg">
+   <link rel="icon" href="img/logo.webp" type="image/webp">
 
    <!-- Speed up the connections we know we'll need (fonts + Firebase) -->
    <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -16,10 +16,18 @@
 
    <!-- The hero image is the largest thing painted on first load (LCP) —
         preload it so the browser fetches it immediately instead of
-        discovering it late once it parses the <img> tag further down. -->
-   <link rel="preload" as="image" href="img/Image.png" fetchpriority="high">
+        discovering it late once it parses the <img> tag further down.
+        Now served as WebP (164KB vs the old PNG's 673KB) — same pixels,
+        a fraction of the bytes, so it paints much sooner on mobile. -->
+   <link rel="preload" as="image" href="img/Image.webp" fetchpriority="high" type="image/webp">
 
-   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Poppins:wght@300;400;500;600;700&family=Dancing+Script:wght@700&display=swap" rel="stylesheet"/>
+   <!-- Google Fonts stylesheet loaded the same non-blocking way as Font
+        Awesome below: the browser fetches it in the background at low
+        priority and swaps it in once ready, instead of pausing first
+        paint to wait for it. -->
+   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Poppins:wght@300;400;500;600;700&family=Dancing+Script:wght@700&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+   <noscript><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Poppins:wght@300;400;500;600;700&family=Dancing+Script:wght@700&display=swap" rel="stylesheet"></noscript>
+
    <link href="css/bootstrap.min.css" rel="stylesheet"/>
    <link href="css/aos.css" rel="stylesheet"/>
 
@@ -32,7 +40,7 @@
 
    <link rel="stylesheet" href="css/style.css" />
    <link rel="stylesheet" href="css/custom.css" />
-   <link rel="icon" href="img/logo.jpg" type="image/jpeg">
+   <link rel="icon" href="img/logo.webp" type="image/webp">
 </head>
 <body>
 <!-- ============================================================
@@ -41,7 +49,7 @@
 <div id="pageLoader">
    <div class="loader-inner">
       <div class="loader-ring-wrap">
-         <img src="img/logo.jpg" alt="Alhamd Fast-Food & Restaurant" class="loader-logo">
+         <img src="img/logo.webp" alt="Alhamd Fast-Food & Restaurant" class="loader-logo" width="66" height="66">
          <svg class="loader-ring" viewBox="0 0 100 100">
             <circle cx="50" cy="50" r="44"></circle>
          </svg>
@@ -62,7 +70,7 @@
       <div class="container">
          <a class="navbar-brand" href="#hero">
             <div class="blogo-img">
-               <img src="img/logo.jpg" alt="Alhamd Fast-Food & Restaurant Logo"/>
+               <img src="img/logo.webp" alt="Alhamd Fast-Food & Restaurant Logo" width="52" height="52"/>
                <div>
                   <div class="bname">Alhamd <span>Fast-Food</span></div>
                   <div class="bsub">& Restaurant</div>
@@ -118,7 +126,7 @@
             <div class="col-lg-6">
                <div style="position:relative;text-align:center;">
                   <div class="hcircle">
-                     <img src="img/Image.png" alt="Alhamd Fast-Food" fetchpriority="high"/>
+                     <img src="img/Image.webp" alt="Alhamd Fast-Food" fetchpriority="high" width="480" height="493"/>
                   </div>
                   <div class="fcard fc1">
                      <div class="fcoi r"><i class="fas fa-fire"></i></div>
@@ -296,7 +304,7 @@
 
                <div class="fc-founder-img">
    <a href="https://www.tiktok.com/@zain.9091" target="_blank" rel="noopener noreferrer">
-      <img src="img/owner.png" alt="Founder Name" loading="lazy">
+      <img src="img/owner.webp" alt="Founder Name" loading="lazy" width="400" height="533">
    </a>
 </div>
 
