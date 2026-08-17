@@ -7,10 +7,29 @@
    <meta name="description" content="Alhamd Fast-Food & Restaurant — order online, menu updates live, checkout on WhatsApp.">
    <title>Alhamd Fast-Food & Restaurant </title>
    <link rel="icon" href="img/logo.jpg" type="image/jpg">
+
+   <!-- Speed up the connections we know we'll need (fonts + Firebase) -->
+   <link rel="preconnect" href="https://fonts.googleapis.com">
+   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+   <link rel="preconnect" href="https://www.gstatic.com">
+   <link rel="preconnect" href="https://firestore.googleapis.com">
+
+   <!-- The hero image is the largest thing painted on first load (LCP) —
+        preload it so the browser fetches it immediately instead of
+        discovering it late once it parses the <img> tag further down. -->
+   <link rel="preload" as="image" href="img/Image.png" fetchpriority="high">
+
    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Poppins:wght@300;400;500;600;700&family=Dancing+Script:wght@700&display=swap" rel="stylesheet"/>
    <link href="css/bootstrap.min.css" rel="stylesheet"/>
    <link href="css/aos.css" rel="stylesheet"/>
-   <link rel="stylesheet" href="css/all.min.css"/>
+
+   <!-- Font Awesome is a big stylesheet and only a few dozen icons on this
+        page actually use it, so it doesn't need to block the first paint.
+        This loads it in the background and swaps it in once ready; the
+        <noscript> fallback covers browsers with JS disabled. -->
+   <link rel="preload" href="css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+   <noscript><link rel="stylesheet" href="css/all.min.css"></noscript>
+
    <link rel="stylesheet" href="css/style.css" />
    <link rel="stylesheet" href="css/custom.css" />
    <link rel="icon" href="img/logo.jpg" type="image/jpeg">
@@ -99,7 +118,7 @@
             <div class="col-lg-6">
                <div style="position:relative;text-align:center;">
                   <div class="hcircle">
-                     <img src="img/Image.png" alt="Alhamd Fast-Food"/>
+                     <img src="img/Image.png" alt="Alhamd Fast-Food" fetchpriority="high"/>
                   </div>
                   <div class="fcard fc1">
                      <div class="fcoi r"><i class="fas fa-fire"></i></div>
@@ -277,7 +296,7 @@
 
                <div class="fc-founder-img">
    <a href="https://www.tiktok.com/@zain.9091" target="_blank" rel="noopener noreferrer">
-      <img src="img/owner.png" alt="Founder Name">
+      <img src="img/owner.png" alt="Founder Name" loading="lazy">
    </a>
 </div>
 
@@ -365,12 +384,15 @@
          </div>
       </div>
 
-      <!-- Latest 3 reviews -->
+      <!-- Reviews: latest 3 by default, "See more" reveals the rest -->
       <div class="ru-reviews row g-4 mt-2" id="ruReviewsList">
          <!-- filled live by JS; skeletons shown until first load -->
          <div class="col-md-4"><div class="ru-review-skel"></div></div>
          <div class="col-md-4"><div class="ru-review-skel"></div></div>
          <div class="col-md-4"><div class="ru-review-skel"></div></div>
+      </div>
+      <div class="text-center">
+         <button type="button" class="ru-seemore-btn" id="ruSeeMoreBtn" style="display:none;">See more reviews</button>
       </div>
    </div>
 </section>
@@ -435,21 +457,56 @@
       box-shadow:0 6px 20px rgba(0,0,0,0.05);
       border:1px solid rgba(0,0,0,0.05);
       position:relative;
+      display:flex;flex-direction:column;
    }
-   .ru-review-delete{
-      position:absolute;top:14px;right:14px;
-      background:none;border:none;cursor:pointer;
-      width:28px;height:28px;border-radius:50%;
-      display:flex;align-items:center;justify-content:center;
-      color:#c9c2b8;font-size:0.82rem;
-      transition:background 0.2s ease, color 0.2s ease;
-   }
-   .ru-review-delete:hover{background:#fdeceb;color:var(--primary);}
-   .ru-review-delete:disabled{opacity:0.5;cursor:not-allowed;}
-   .ru-review-stars{color:var(--primary);font-size:0.95rem;margin-bottom:8px;letter-spacing:2px;padding-right:26px;}
+   .ru-review-stars{color:var(--primary);font-size:0.95rem;margin-bottom:8px;letter-spacing:2px;}
    .ru-review-text{font-size:0.9rem;color:#555;margin-bottom:12px;min-height:20px;}
    .ru-review-name{font-weight:700;font-size:0.88rem;}
    .ru-review-date{font-size:0.75rem;color:#aaa;}
+
+   /* "See more reviews" */
+   .ru-seemore-btn{
+      display:none;margin-top:22px;
+      background:none;border:1.5px solid var(--primary);color:var(--primary);
+      font-weight:600;font-size:0.88rem;padding:10px 28px;
+      border-radius:30px;cursor:pointer;
+      transition:background 0.2s ease, color 0.2s ease;
+   }
+   .ru-seemore-btn:hover{background:var(--primary);color:#fff;}
+
+   /* Replies (anyone can reply to any review) */
+   .ru-reply-toggle{
+      align-self:flex-start;
+      background:none;border:none;cursor:pointer;
+      color:var(--primary);font-weight:600;font-size:0.8rem;
+      padding:0;margin-top:auto;padding-top:10px;
+   }
+   .ru-reply-toggle:hover{text-decoration:underline;}
+   .ru-replies{margin-bottom:10px;padding-top:2px;}
+   .ru-reply{background:#faf9f7;border-radius:10px;padding:10px 12px;margin-bottom:8px;}
+   .ru-reply:last-child{margin-bottom:0;}
+   .ru-reply-head{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-bottom:3px;}
+   .ru-reply-name{font-weight:700;font-size:0.8rem;}
+   .ru-reply-date{font-size:0.7rem;color:#aaa;white-space:nowrap;}
+   .ru-reply-text{font-size:0.83rem;color:#555;}
+   .ru-reply-form{margin-top:10px;}
+   .ru-reply-name-input,.ru-reply-text-input{
+      width:100%;box-sizing:border-box;
+      border:1px solid rgba(0,0,0,0.12);border-radius:8px;
+      padding:8px 10px;font-size:0.85rem;font-family:inherit;
+      margin-bottom:8px;background:#faf9f7;
+   }
+   .ru-reply-text-input{resize:none;}
+   .ru-reply-name-input:focus,.ru-reply-text-input:focus{outline:none;border-color:var(--primary);}
+   .ru-reply-form-actions{display:flex;gap:8px;}
+   .ru-reply-cancel,.ru-reply-submit{
+      flex:1;border:none;border-radius:8px;
+      padding:9px 0;font-weight:600;font-size:0.82rem;cursor:pointer;
+   }
+   .ru-reply-cancel{background:#eee;color:#555;}
+   .ru-reply-cancel:hover{background:#e2e2e2;}
+   .ru-reply-submit{background:var(--primary);color:#fff;}
+   .ru-reply-submit:disabled{opacity:0.6;cursor:not-allowed;}
    .ru-review-skel{
       height:150px;border-radius:14px;
       background:linear-gradient(90deg,#eee 25%,#f6f6f6 50%,#eee 75%);
@@ -476,6 +533,8 @@
       .ru-review-card{padding:18px;}
       .ru-review-text{font-size:0.87rem;}
       .ru-check{width:48px;height:48px;font-size:20px;}
+      .ru-seemore-btn{width:100%;padding:12px 0;}
+      .ru-reply-name-input,.ru-reply-text-input{font-size:16px;} /* 16px avoids iOS zoom-on-focus */
    }
    @media (max-width: 380px){
       .ru-star{font-size:26px;}
@@ -533,16 +592,23 @@
    <!-- ============================================================
       SCRIPTS
       ============================================================ -->
-   <script src="js/bootstrap.bundle.min.js"></script>
-   <script src="js/aos.js"></script>
-   <script>AOS.init({ duration: 700, once: true });</script>
+   <!-- defer lets the browser fetch all of these in parallel instead of
+        one-at-a-time, while still running them in this exact order right
+        before the page is considered "loaded" -->
+   <script src="js/bootstrap.bundle.min.js" defer></script>
+   <script src="js/aos.js" defer></script>
+   <script>
+      document.addEventListener('DOMContentLoaded', function () {
+         AOS.init({ duration: 700, once: true });
+      });
+   </script>
 
    <!-- Firebase (same project as POS — read-only usage on this site) -->
-   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js" defer></script>
+   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js" defer></script>
 
-   <script src="js/menu.js"></script>
-   <script src="js/campaigns.js"></script>
+   <script src="js/menu.js" defer></script>
+   <script src="js/campaigns.js" defer></script>
 
    <!-- ============================================================
       RATE US — logic only (markup + styles are in the section above)
@@ -569,35 +635,10 @@
          var formBlock = document.getElementById('ruForm');
          var thanksBlock = document.getElementById('ruThanks');
          var listEl = document.getElementById('ruReviewsList');
+         var seeMoreBtn = document.getElementById('ruSeeMoreBtn');
 
          var labels = ['', 'Poor', 'Fair', 'Good', 'Very Good', 'Excellent'];
          var selectedValue = 0;
-
-         // ---- "My reviews" tracking (localStorage) ----
-         // No login system on this site, so we remember which review IDs
-         // THIS browser submitted, and only show a delete button on those.
-         var MY_REVIEWS_KEY = 'ruMyReviews';
-
-         function getMyReviewIds() {
-            try {
-               return JSON.parse(localStorage.getItem(MY_REVIEWS_KEY)) || [];
-            } catch (e) {
-               return [];
-            }
-         }
-
-         function addMyReviewId(id) {
-            var ids = getMyReviewIds();
-            if (ids.indexOf(id) === -1) {
-               ids.push(id);
-               localStorage.setItem(MY_REVIEWS_KEY, JSON.stringify(ids));
-            }
-         }
-
-         function removeMyReviewId(id) {
-            var ids = getMyReviewIds().filter(function (existingId) { return existingId !== id; });
-            localStorage.setItem(MY_REVIEWS_KEY, JSON.stringify(ids));
-         }
 
          function paintStars(upTo) {
             stars.forEach(function (star) {
@@ -640,9 +681,9 @@
                rating: selectedValue,
                name: name,
                review: reviewText,
+               replies: [],
                createdAt: firebase.firestore.FieldValue.serverTimestamp()
-            }).then(function (docRef) {
-               addMyReviewId(docRef.id);
+            }).then(function () {
                formBlock.style.display = 'none';
                thanksBlock.style.display = 'block';
             }).catch(function (err) {
@@ -666,65 +707,166 @@
             return 'Just now';
          }
 
-         function renderReviews(snapshot) {
-            if (snapshot.empty) {
-               listEl.innerHTML = '<p class="ru-empty">No reviews yet — be the first to rate us!</p>';
-               return;
-            }
-            var myIds = getMyReviewIds();
-            var html = '';
-            snapshot.forEach(function (doc) {
-               var r = doc.data();
-               var rating = r.rating || 0;
-               var starsHtml = '';
-               for (var i = 1; i <= 5; i++) {
-                  starsHtml += i <= rating ? '★' : '☆';
-               }
-               var when = r.createdAt && r.createdAt.toDate ? timeAgo(r.createdAt.toDate()) : '';
-               var reviewText = r.review ? r.review.replace(/</g, '&lt;').replace(/>/g, '&gt;') : '<em>No written review</em>';
-               var name = (r.name || 'Anonymous').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-               var isMine = myIds.indexOf(doc.id) !== -1;
-               var deleteBtnHtml = isMine
-                  ? '<button type="button" class="ru-review-delete" data-id="' + doc.id + '" aria-label="Delete your review" title="Delete your review"><i class="fas fa-trash"></i></button>'
-                  : '';
-
-               html +=
-                  '<div class="col-md-4">' +
-                     '<div class="ru-review-card">' +
-                        deleteBtnHtml +
-                        '<div class="ru-review-stars">' + starsHtml + '</div>' +
-                        '<div class="ru-review-text">' + reviewText + '</div>' +
-                        '<div class="ru-review-name">' + name + '</div>' +
-                        '<div class="ru-review-date">' + when + '</div>' +
-                     '</div>' +
-                  '</div>';
-            });
-            listEl.innerHTML = html;
+         function escapeHtml(str) {
+            return String(str).replace(/</g, '&lt;').replace(/>/g, '&gt;');
          }
 
-         // Delete handler (event delegation — cards are re-rendered on every live update)
-         listEl.addEventListener('click', function (e) {
-            var btn = e.target.closest('.ru-review-delete');
-            if (!btn) return;
+         // ---- local state ----
+         var allReviews = [];    // full live-synced list, newest first
+         var showingAll = false; // false = latest 3 only, true = everything
 
-            var id = btn.dataset.id;
-            if (!confirm('Delete your review? This can\'t be undone.')) return;
+         // Per-review reply-box state (open/typed-so-far), kept OUTSIDE the
+         // render function. Reviews re-render on every live update (e.g. a
+         // new review coming in elsewhere), so without this, anyone mid-way
+         // through typing a reply would have it wiped out from under them.
+         var replyDrafts = {}; // reviewId -> {open, name, text}
+         function getDraft(id) {
+            if (!replyDrafts[id]) replyDrafts[id] = { open: false, name: '', text: '' };
+            return replyDrafts[id];
+         }
 
-            btn.disabled = true;
-            reviewsRef.doc(id).delete().then(function () {
-               removeMyReviewId(id);
-               // onSnapshot listener will re-render the list automatically
-            }).catch(function (err) {
-               console.error('Rate Us: failed to delete review', err);
-               btn.disabled = false;
-               alert('Could not delete the review — please try again.');
-            });
+         function reviewCardHtml(id, r) {
+            var rating = r.rating || 0;
+            var starsHtml = '';
+            for (var i = 1; i <= 5; i++) starsHtml += i <= rating ? '★' : '☆';
+            var when = r.createdAt && r.createdAt.toDate ? timeAgo(r.createdAt.toDate()) : '';
+            var reviewText = r.review ? escapeHtml(r.review) : '<em>No written review</em>';
+            var name = escapeHtml(r.name || 'Anonymous');
+
+            var replies = Array.isArray(r.replies) ? r.replies : [];
+            var repliesHtml = replies.map(function (rep) {
+               var repWhen = rep.createdAt && rep.createdAt.toDate ? timeAgo(rep.createdAt.toDate()) : '';
+               return '<div class="ru-reply">' +
+                  '<div class="ru-reply-head"><span class="ru-reply-name">' + escapeHtml(rep.name || 'Anonymous') + '</span>' +
+                  '<span class="ru-reply-date">' + repWhen + '</span></div>' +
+                  '<div class="ru-reply-text">' + escapeHtml(rep.text || '') + '</div>' +
+               '</div>';
+            }).join('');
+
+            var draft = getDraft(id);
+            var formHtml = draft.open
+               ? '<div class="ru-reply-form">' +
+                    '<input type="text" class="ru-reply-name-input" data-review-id="' + id + '" placeholder="Your name" maxlength="40" value="' + escapeHtml(draft.name) + '">' +
+                    '<textarea class="ru-reply-text-input" data-review-id="' + id + '" rows="2" placeholder="Write a reply..." maxlength="300">' + escapeHtml(draft.text) + '</textarea>' +
+                    '<div class="ru-reply-form-actions">' +
+                       '<button type="button" class="ru-reply-cancel" data-review-id="' + id + '">Cancel</button>' +
+                       '<button type="button" class="ru-reply-submit" data-review-id="' + id + '">Post Reply</button>' +
+                    '</div>' +
+                 '</div>'
+               : '';
+
+            return (
+               '<div class="col-md-4">' +
+                  '<div class="ru-review-card">' +
+                     '<div class="ru-review-stars">' + starsHtml + '</div>' +
+                     '<div class="ru-review-text">' + reviewText + '</div>' +
+                     '<div class="ru-review-name">' + name + '</div>' +
+                     '<div class="ru-review-date">' + when + '</div>' +
+                     (repliesHtml ? '<div class="ru-replies">' + repliesHtml + '</div>' : '') +
+                     '<button type="button" class="ru-reply-toggle" data-review-id="' + id + '">' + (draft.open ? 'Cancel reply' : 'Reply') + '</button>' +
+                     formHtml +
+                  '</div>' +
+               '</div>'
+            );
+         }
+
+         function renderReviews() {
+            if (allReviews.length === 0) {
+               listEl.innerHTML = '<p class="ru-empty">No reviews yet — be the first to rate us!</p>';
+               seeMoreBtn.style.display = 'none';
+               return;
+            }
+            var toShow = showingAll ? allReviews : allReviews.slice(0, 3);
+            listEl.innerHTML = toShow.map(function (item) { return reviewCardHtml(item.id, item.data); }).join('');
+
+            if (allReviews.length > 3) {
+               seeMoreBtn.style.display = 'inline-block';
+               seeMoreBtn.textContent = showingAll ? 'Show fewer reviews' : 'See more reviews (' + allReviews.length + ')';
+            } else {
+               seeMoreBtn.style.display = 'none';
+            }
+         }
+
+         seeMoreBtn.addEventListener('click', function () {
+            showingAll = !showingAll;
+            renderReviews();
+            if (!showingAll) {
+               listEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
          });
 
-         // Live-updating latest 3 reviews (matches the rest of the site's live-sync feel)
-         reviewsRef.orderBy('createdAt', 'desc').limit(3).onSnapshot(renderReviews, function (err) {
+         // Reply interactions (event delegation, since cards re-render on every live update)
+         listEl.addEventListener('click', function (e) {
+            var toggleBtn = e.target.closest('.ru-reply-toggle');
+            if (toggleBtn) {
+               var toggleId = toggleBtn.dataset.reviewId;
+               getDraft(toggleId).open = !getDraft(toggleId).open;
+               renderReviews();
+               return;
+            }
+
+            var cancelBtn = e.target.closest('.ru-reply-cancel');
+            if (cancelBtn) {
+               replyDrafts[cancelBtn.dataset.reviewId] = { open: false, name: '', text: '' };
+               renderReviews();
+               return;
+            }
+
+            var submitReplyBtn = e.target.closest('.ru-reply-submit');
+            if (submitReplyBtn) {
+               var reviewId = submitReplyBtn.dataset.reviewId;
+               var draft = getDraft(reviewId);
+               var replyText = (draft.text || '').trim();
+               if (!replyText) {
+                  var textInput = submitReplyBtn.closest('.ru-reply-form').querySelector('.ru-reply-text-input');
+                  if (textInput) textInput.focus();
+                  return;
+               }
+               var replyName = (draft.name || '').trim() || 'Anonymous';
+
+               submitReplyBtn.disabled = true;
+               submitReplyBtn.textContent = 'Posting...';
+
+               reviewsRef.doc(reviewId).update({
+                  replies: firebase.firestore.FieldValue.arrayUnion({
+                     name: replyName,
+                     text: replyText,
+                     createdAt: firebase.firestore.Timestamp.now()
+                  })
+               }).then(function () {
+                  replyDrafts[reviewId] = { open: false, name: '', text: '' };
+                  // onSnapshot below re-renders automatically with the new reply
+               }).catch(function (err) {
+                  console.error('Rate Us: failed to post reply', err);
+                  submitReplyBtn.disabled = false;
+                  submitReplyBtn.textContent = 'Post Reply';
+                  alert('Could not post your reply — please try again.');
+               });
+            }
+         });
+
+         // Keep typed text in sync with the draft state as the visitor types
+         listEl.addEventListener('input', function (e) {
+            if (e.target.classList.contains('ru-reply-name-input')) {
+               getDraft(e.target.dataset.reviewId).name = e.target.value;
+            } else if (e.target.classList.contains('ru-reply-text-input')) {
+               getDraft(e.target.dataset.reviewId).text = e.target.value;
+            }
+         });
+
+         // Live-synced full review list (newest first). Everything is fetched
+         // once and cached client-side so "See more" is instant with no extra
+         // network round-trip, and replies update live without a page refresh.
+         reviewsRef.orderBy('createdAt', 'desc').onSnapshot(function (snapshot) {
+            allReviews = [];
+            snapshot.forEach(function (doc) {
+               allReviews.push({ id: doc.id, data: doc.data() });
+            });
+            renderReviews();
+         }, function (err) {
             console.error('Rate Us: failed to load reviews', err);
             listEl.innerHTML = '<p class="ru-empty">Could not load reviews right now.</p>';
+            seeMoreBtn.style.display = 'none';
          });
       }
 
@@ -736,4 +878,4 @@
    })();
    </script>
 </body>
-</html> 
+</html>
